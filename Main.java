@@ -1,33 +1,27 @@
+import java.util.*;
+import javax.swing.*;
 
-/**
- * Write a description of class Main here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
-public class Main
-{
-    // instance variables - replace the example below with your own
-    private int x;
-
-    /**
-     * Constructor for objects of class Main
-     */
-    public Main()
-    {
-        // initialise instance variables
-        x = 0;
-    }
-
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
+public class Main {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("");
+        Game game = new Game();
+        
+        
+        Mouse mouse = new Mouse();
+        frame.addMouseListener(mouse);
+        Keyboard keyboard = new Keyboard();
+        frame.addKeyListener(keyboard);
+        MoveMouse mm = new MoveMouse();
+        frame.addMouseMotionListener(mm);
+        MouseWheel mw = new MouseWheel();
+        frame.addMouseWheelListener(mw);
+        Display screen = new Display(game, mouse, keyboard, mm, mw, frame);
+        frame.add(screen);
+        
+        frame.setBounds(0,0,1400,840);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        new Thread(game).start();
+        new Thread(new frameRateUpdater(30,screen)).start();
     }
 }
